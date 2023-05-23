@@ -15,12 +15,14 @@ function LoadProducts() {
     let productsHTML = document.getElementById("products");
 
     products.forEach(product => {
+        product.price = product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         productsHTML.innerHTML += `
         <div class="product">
-            <img src="${product.image}">
+            <div class="product-img" style="background-image: url('${product.image}')">
+                <div class="price">${product.price} €</div>
+            </div>
             <h3>${product.name}</h3>
-            <div>${product.description}</div>
-            <div class="price">${product.price} €</div>
+            <div class="description">${product.description}</div>
         </div>
         `;
     });
