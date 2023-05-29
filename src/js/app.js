@@ -84,3 +84,14 @@ function getCartItemId() {
     }
     return "item-" + id;
 }
+
+function toggleCart() {
+    let cartBoxs = document.getElementsByClassName("cart");
+    for (let i = 0; i < cartBoxs.length; i++) {
+        if (cartBoxs[i].style.display === "none") {
+            cartBoxs[i].style.display = "flex";
+        } else {
+            cartBoxs[i].style.display = "none";
+        }
+    }
+}

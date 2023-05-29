@@ -70,6 +70,7 @@ html, body {
 .header a {
     text-decoration: none;
     color: #00bdb9;
+    cursor: pointer;
 }
 
 /* PRODUCTS */
@@ -235,6 +236,10 @@ html, body {
     }
 
     .cart {
-        display: none;
+        position: absolute;
+        right: 0;
+        height: 100vh;
+        background: white;
+        width: 75vw;
     }
 }
