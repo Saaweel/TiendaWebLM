@@ -163,6 +163,7 @@ html, body {
     border-bottom-left-radius: 15px;
     box-shadow: 1px 12px 20px 0px black;
     min-width: 20vw;
+    background: white;
 }
 
 .item {
