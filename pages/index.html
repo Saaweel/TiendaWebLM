@@ -25,7 +25,70 @@
                 <div id="cart">
                     
                 </div>
-                <button class="cart_total" id="cart_total">Pagar: 0 €</button>
+                <button title="Pagar" class="cart_total" id="cart_total" onclick="openCheckout()" disabled>Pagar: 0 €</button>
+            </div>
+        </div>
+        <div class="checkout" id="checkout">
+            <div class="checkout-modal">
+                <div class="checkout-modal-header">
+                    <h2 id="checkout_total">Pagar</h2>
+                    <i class="fa-solid fa-xmark" onclick="closeCheckout()"></i>
+                </div>
+                <div class="checkout-modal-body">
+                    <div class="checkout-modal-body-form">
+                        <div class="checkout-modal-body-form-input">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="phone">Teléfono</label>
+                            <input type="number" name="phone" id="phone">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="country">País</label>
+                            <input type="text" name="country" id="country">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="city">Ciudad</label>
+                            <input type="text" name="city" id="city">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="postal_code">Código Postal</label>
+                            <input type="number" name="postal_code" id="postal_code">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="address">Dirección</label>
+                            <input type="text" name="address" id="address">
+                        </div>
+                    </div>
+
+                    <div class="checkout-modal-body-form">
+                        <div class="checkout-modal-body-form-input">
+                            <label for="name">Nombre</label>
+                            <input type="text" name="name" id="name">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="surname">Apellidos</label>
+                            <input type="text" name="surname" id="surname">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="card_number">Número de tarjeta</label>
+                            <input type="number" name="card_number" id="card_number">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="card_cvv">CVV</label>
+                            <input type="number" name="card_cvv" id="card_cvv">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <label for="card_expiration">Fecha de expiración</label>
+                            <input type="text" name="card_expiration" id="card_expiration" placeholder="mm/aaaa">
+                        </div>
+                        <div class="checkout-modal-body-form-input">
+                            <button title="Confirmar pago" class="checkout_confirm" onclick="pay()">Confirmar pago</button>
+                            <span id="checkout_result">Error</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <script>
