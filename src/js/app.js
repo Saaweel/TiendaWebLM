@@ -17,48 +17,65 @@ function Login() {
 function LoadProducts() {
     let productsHTML = document.getElementById("products");
 
-    products.forEach(product => {
+    products.forEach((product, i) => {
         productsHTML.innerHTML += `
-        <div class="product">
+        <div class="product" id="product-${i}">
             <div class="product-img" style="background-image: url('${product.image}')">
                 <div class="price">${product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} €</div>
             </div>
             <h3>${product.name}</h3>
             <div class="description">${product.description}</div>
-            <button class="product-add" onclick="addCartItem('${product.name}', ${product.price}, '${product.image}')" ${product.stock < 1 ? "disabled" : ""}>Añadir al carrito</button>
+            <button class="product-add" onclick="addCartItem(${i}, '${product.name}', ${product.price}, '${product.image}')" ${product.stock < 1 ? "disabled" : ""}>Añadir al carrito</button>
         </div>
         `;
     });
 }
 
-function addCartItem(name, price, image) {
-    let itemid = getCartItemId();
+function addCartItem(listid, name, price, image) {
     let amount = 1;
 
-    cart.push({
-        itemid,
-        name,
-        price,
-        image,
-        amount
-    });
+    products[listid].stock -= 1;
+
+    if (products[listid].stock < 1) {
+        let productHTML = document.getElementById(`product-${listid}`);
+        productHTML.getElementsByClassName("product-add")[0].disabled = true;
+    }
 
     cart_total += price * amount;
 
     cart_total = Math.round(cart_total * 100) / 100;
 
-    let cartHTML = document.getElementById("cart");
+    if (cart.some(e => listid === e.listid)) {
+        let index = cart.findIndex(e => listid === e.listid);
+        cart[index].amount += amount;
+        
+        let item = document.getElementById(cart[index].itemid);
+        let itemInfo = item.getElementsByClassName("item-info")[0];
+        itemInfo.innerHTML = `${cart[index].amount}x / ${cart[index].price} € / Total ${cart[index].amount * cart[index].price} €`;
+    } else {
+        let itemid = getCartItemId();
+        let cartHTML = document.getElementById("cart");
 
-    cartHTML.innerHTML += `
-        <div class="item" id="${itemid}">
-            <div class="item-image" style="background-image: url('${image}');"></div>
-            <div class="item-label">
-                <div class="item-name">${name}</div>
-                <div class="item-info">${amount}x / ${price} € / Total ${amount * price} €</div>
-                <div onclick="deleteCartItem('${itemid}')"><i class="fa-solid fa-trash-can delete"></i></div>
+        cartHTML.innerHTML += `
+            <div class="item" id="${itemid}">
+                <div class="item-image" style="background-image: url('${image}');"></div>
+                <div class="item-label">
+                    <div class="item-name">${name}</div>
+                    <div class="item-info">${amount}x / ${price} € / Total ${amount * price} €</div>
+                    <div onclick="deleteCartItem('${itemid}')"><i class="fa-solid fa-trash-can delete"></i></div>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+
+        cart.push({
+            itemid,
+            name,
+            price,
+            image,
+            amount,
+            listid
+        });
+    }
 
     let cartTotalHTML = document.getElementById("cart_total");
     cartTotalHTML.innerHTML = `Pagar: ${cart_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} €`;
@@ -73,6 +90,14 @@ function deleteCartItem(id) {
     let index = cart.findIndex(e => e.itemid === id);
     cart_total -= cart[index].price * cart[index].amount;
     cart_total = Math.round(cart_total * 100) / 100;
+
+    products[cart[index].listid].stock = cart[index].amount;
+
+    if (products[cart[index].listid].stock > 0) {
+        let productHTML = document.getElementById(`product-${cart[index].listid}`);
+        productHTML.getElementsByClassName("product-add")[0].disabled = false;
+    }
+
     cart.splice(index, 1);
 
     let cartTotalHTML = document.getElementById("cart_total");
